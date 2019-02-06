@@ -11,7 +11,7 @@ spec:
         serviceAccountName: build-bot
         source:
           git:
-            url: https://github.com/srinivasa-vasu/spring-music.git
+            url: https://github.com/srinivasa-vasu/spring-music-knative.git
             revision: master
         template:
           name: jib-gradle
