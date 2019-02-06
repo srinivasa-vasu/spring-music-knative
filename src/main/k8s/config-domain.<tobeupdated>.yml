@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-domain
+  namespace: knative-serving
+data:
+#  pksapps.humourmind.com: |
+#    selector:
+#      app: spring
+  <public_ip_or_custome_domain_name>.nip.io: ""

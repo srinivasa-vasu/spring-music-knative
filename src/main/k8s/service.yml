@@ -1,0 +1,33 @@
+apiVersion: serving.knative.dev/v1alpha1
+kind: Service
+metadata:
+  name: spring-java
+  labels:
+    app: spring-java
+spec:
+  runLatest:
+    configuration:
+      build:
+        serviceAccountName: build-bot
+        source:
+          git:
+            url: https://github.com/srinivasa-vasu/spring-music.git
+            revision: master
+        template:
+          name: buildpack
+          arguments:
+          - name: IMAGE
+            value: humourmind/spring-java
+          env:
+          - name: PACK_APP_ZIP
+            value: spring-music-0.1.jar            
+      revisionTemplate:
+        metadata:
+          annotations:
+            autoscaling.knative.dev/minScale: "1"
+          labels:
+            knative.dev/type: spring-java
+            app: spring
+        spec:
+          container:
+            image: humourmind/spring-java

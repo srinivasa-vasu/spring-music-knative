@@ -1,0 +1,36 @@
+apiVersion: serving.knative.dev/v1alpha1
+kind: Service
+metadata:
+  name: spring-music
+  labels:
+    app: spring-music
+spec:
+  runLatest:
+    configuration:
+      build:
+        serviceAccountName: build-bot
+        source:
+          git:
+            url: https://github.com/srinivasa-vasu/spring-music.git
+            revision: master
+        template:
+          name: jib-gradle
+          arguments:
+          - name: IMAGE
+            value: humourmind/spring-music
+      revisionTemplate:
+        metadata:
+          annotations:
+            # this prevents from scale to zero
+            autoscaling.knative.dev/minScale: "1"
+          labels:
+            knative.dev/type: spring-music
+            app: spring-music
+        spec:
+          metadata:
+            labels:
+              app: spring-music
+          container:
+            image: humourmind/spring-music              
+
+            
